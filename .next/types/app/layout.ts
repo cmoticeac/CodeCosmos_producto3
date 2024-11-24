@@ -1,4 +1,4 @@
-// File: C:\CodeCosmos_producto3\src\app\layout.tsx
+// File: C:\Users\Alejandro\Documents\GitHub\CodeCosmos_producto3\src\app\layout.tsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
