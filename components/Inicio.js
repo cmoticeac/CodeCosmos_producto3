@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 
 // Datos iniciales
-const initialData = Array.from({ length: 20 }, (_, index) => ({
+const initialData = Array.from({ length: 50 }, (_, index) => ({
   id: index.toString(),
   title: `Elemento ${index + 1}`,
 }));
@@ -11,7 +11,7 @@ export default function Inicio() {
   const [data, setData] = useState(initialData); // Datos visibles
   const [loading, setLoading] = useState(false); // Estado de carga
 
-  // Función para simular la carga de más datos
+  // Función para simular la carga de más datos (repetir los mismos 50 elementos)
   const loadMoreData = () => {
     if (loading) return; // No hacer nada si ya se está cargando
 
@@ -19,13 +19,8 @@ export default function Inicio() {
 
     // Simular un retraso para obtener más datos
     setTimeout(() => {
-      const newData = Array.from({ length: 20 }, (_, index) => ({
-        id: (data.length + index).toString(),
-        title: `Elemento ${data.length + index + 1}`,
-      }));
-
-      // Actualizar los datos con los nuevos elementos
-      setData((prevData) => [...prevData, ...newData]);
+      // Repetir los datos actuales
+      setData((prevData) => [...prevData, ...initialData]);
       setLoading(false); // Desactivar el estado de carga
     }, 1000); // Simulación de un retraso de 1 segundo
   };
@@ -40,7 +35,7 @@ export default function Inicio() {
       {/* Zona del listado infinito */}
       <FlatList
         data={data}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => `${item.id}-${index}`} // Clave única combinando el id y el índice
         renderItem={({ item }) => (
           <View style={styles.listItem}>
             <Text style={styles.listText}>{item.title}</Text>
