@@ -1,13 +1,35 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 
-// Datos de ejemplo para la lista
-const data = Array.from({ length: 50 }, (_, index) => ({
+// Datos iniciales
+const initialData = Array.from({ length: 20 }, (_, index) => ({
   id: index.toString(),
   title: `Elemento ${index + 1}`,
 }));
 
 export default function Inicio() {
+  const [data, setData] = useState(initialData); // Datos visibles
+  const [loading, setLoading] = useState(false); // Estado de carga
+
+  // Función para simular la carga de más datos
+  const loadMoreData = () => {
+    if (loading) return; // No hacer nada si ya se está cargando
+
+    setLoading(true); // Activar el estado de carga
+
+    // Simular un retraso para obtener más datos
+    setTimeout(() => {
+      const newData = Array.from({ length: 20 }, (_, index) => ({
+        id: (data.length + index).toString(),
+        title: `Elemento ${data.length + index + 1}`,
+      }));
+
+      // Actualizar los datos con los nuevos elementos
+      setData((prevData) => [...prevData, ...newData]);
+      setLoading(false); // Desactivar el estado de carga
+    }, 1000); // Simulación de un retraso de 1 segundo
+  };
+
   return (
     <View style={styles.container}>
       {/* Zona del título superior */}
@@ -25,6 +47,11 @@ export default function Inicio() {
           </View>
         )}
         contentContainerStyle={styles.listContainer}
+        onEndReached={loadMoreData} // Cargar más datos cuando se llegue al final
+        onEndReachedThreshold={0.1} // Iniciar la carga cuando esté a 10% del final
+        ListFooterComponent={
+          loading ? <ActivityIndicator size="large" color="#6200ee" /> : null
+        } // Mostrar un indicador de carga al final
       />
     </View>
   );
