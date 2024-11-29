@@ -10,7 +10,7 @@ const data = Array.from({ length: 50 }, (_, index) => ({
 export default function Inicio() {
   return (
     <View style={styles.container}>
-      {/* Zona del título */}
+      {/* Zona del título superior */}
       <View style={styles.header}>
         <Text style={styles.title}>¡Bienvenido a la App!</Text>
       </View>
@@ -24,6 +24,7 @@ export default function Inicio() {
             <Text style={styles.listText}>{item.title}</Text>
           </View>
         )}
+        contentContainerStyle={styles.listContainer}
       />
     </View>
   );
@@ -44,13 +45,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
   },
+  listContainer: {
+    paddingHorizontal: 10,
+    paddingBottom: 20,
+  },
   listItem: {
     padding: 15,
     marginVertical: 5,
-    marginHorizontal: 10,
     backgroundColor: '#ffffff',
     borderRadius: 5,
-    elevation: 2,
+    elevation: 2, // Sombra para Android
+    shadowColor: '#000', // Sombra para iOS
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   listText: {
     fontSize: 16,
