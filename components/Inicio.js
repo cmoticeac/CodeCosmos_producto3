@@ -1,7 +1,9 @@
-// Inicio.js
 import React, { useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, Button } from 'react-native';
+ 
 import { styles } from './styles';  // Importamos los estilos desde el archivo styles.js
+ 
+  
 
 /**
  * Datos iniciales  se pondrán los datos de jugadores en este initialData
@@ -36,6 +38,20 @@ export default function Inicio() {
     }, 1000); // Simulación de un retraso de 1 segundo
   };
 
+  /**
+   * Aquí vuelve al incio conforme a la rubrica
+   */
+  const onPressGoHome = () => {
+    console.log('Navegando a Home');
+  };
+
+  /**
+   * Al pulsar ... listado ..PROPUESTA
+   */
+  const onPressGoPlayers = () => {
+    console.log('Navegando a Players');
+  };
+
   return (
     <View style={styles.container}>
       {/* Zona del título superior */}
@@ -61,11 +77,28 @@ export default function Inicio() {
       />
       
       <View style={styles.footer}> 
-        <Text >El futuro nav de navegación super sabado
-        </Text>
+        <Text>El futuro nav de navegación super sabado</Text>
+
+        {/* Reemplazamos el texto con el icono FontAwesome */}
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={onPressGoHome}
+            title="home"
+            color="#841500"
+        
+            accessibilityLabel="ir a inicio"
+           // icon={<FontAwesomeIcon name="house-chimney" size={24} color="#fff" />} // Añadir icono
+            style={styles.buttonHome}  // Añadir el estilo adicional para el Home
+          />
+          <Button
+            onPress={onPressGoPlayers}
+            title="List Players"
+            color="#841500"
+             // icon=
+            accessibilityLabel="ir a inicio"
+          />
+        </View>
       </View>
     </View>
-
-
   );
 }
