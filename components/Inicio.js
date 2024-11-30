@@ -1,12 +1,23 @@
+// Inicio.js
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { styles } from './styles';  // Importamos los estilos desde el archivo styles.js
 
-// Datos iniciales
+/**
+ * Datos iniciales  se pondrán los datos de jugadores en este initialData
+ */
 const initialData = Array.from({ length: 50 }, (_, index) => ({
   id: index.toString(),
   title: `Elemento ${index + 1}`,
 }));
 
+/**
+ * Componente Flatlist 
+ * (paso 6) Crear el primer componente Inicio que contendrá las dos zonas del Mockup,
+ * una para el título superior y la otra zona un listado infinito mediante un FlatList
+ *
+ * @returns devuelve el componente Inicio
+ */
 export default function Inicio() {
   const [data, setData] = useState(initialData); // Datos visibles
   const [loading, setLoading] = useState(false); // Estado de carga
@@ -51,38 +62,3 @@ export default function Inicio() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  header: {
-    padding: 20,
-    backgroundColor: '#6200ee',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  listContainer: {
-    paddingHorizontal: 10,
-    paddingBottom: 20,
-  },
-  listItem: {
-    padding: 15,
-    marginVertical: 5,
-    backgroundColor: '#ffffff',
-    borderRadius: 5,
-    elevation: 2, // Sombra para Android
-    shadowColor: '#000', // Sombra para iOS
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 1,
-  },
-  listText: {
-    fontSize: 16,
-  },
-});
