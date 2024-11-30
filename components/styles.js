@@ -34,4 +34,9 @@ export const styles = StyleSheet.create({
   listText: {
     fontSize: 16,
   },
+  footer:{
+    padding: 20,
+    backgroundColor: '00FF00'
+   
+  }
 });

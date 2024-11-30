@@ -59,6 +59,13 @@ export default function Inicio() {
           loading ? <ActivityIndicator size="large" color="#6200ee" /> : null
         } // Mostrar un indicador de carga al final
       />
+      
+      <View style={styles.footer}> 
+        <Text >El futuro nav de navegación super sabado
+        </Text>
+      </View>
     </View>
+
+
   );
 }
