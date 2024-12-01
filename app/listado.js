@@ -1,9 +1,8 @@
 import { View, Text, FlatList, StyleSheet, Platform } from 'react-native';
 import { getApp, initializeApp } from '@react-native-firebase/app';
 import React, { useEffect, useState } from 'react';
-import  firebaseConfig from './firebaseConfig';
+import firebaseConfig from './firebaseConfig';
 import database from '@react-native-firebase/database';
-import { setNativeProps } from 'react-native-reanimated';
 
 export default function HomeScreen() {
     const [jugadores, setJugadores] = useState([]);
@@ -27,7 +26,7 @@ export default function HomeScreen() {
         if (data) {
           const jugadoresArray = Object.entries(data).map(([key, value]) => ({
             id: key,
-            ...(value, object),
+            ...value,  // Corregido aquí
           }));
           console.log(jugadoresArray);
           setJugadores(jugadoresArray);
@@ -37,7 +36,7 @@ export default function HomeScreen() {
       });
   
       // Limpiar la suscripción cuando el componente se desmonte
-      return () => unsubscribe();
+      return () => jugadoresRef.off('value');
     }, []);
   
     // Renderizar cada jugador
@@ -83,6 +82,3 @@ export default function HomeScreen() {
       fontWeight: '600',
     },
   });
-
-
-  
