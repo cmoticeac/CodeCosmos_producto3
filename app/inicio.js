@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator, Button } from 'react-native';
  
-import { styles } from './styles';  // Importamos los estilos desde el archivo styles.js
+import { styles } from '../styles';  // Importamos los estilos desde el archivo styles.js
  
 
   
