@@ -1,7 +1,7 @@
 import { View, Text, FlatList, StyleSheet, Platform } from 'react-native';
 import { getApp, initializeApp } from '@react-native-firebase/app';
 import React, { useEffect, useState } from 'react';
-import  firebaseConfig from '../firebaseConfig';
+import  firebaseConfig from './firebaseConfig';
 import database from '@react-native-firebase/database';
 import { setNativeProps } from 'react-native-reanimated';
 
@@ -25,9 +25,9 @@ export default function HomeScreen() {
       jugadoresRef.on('value', snapshot => {
         const data = snapshot.val();
         if (data) {
-          const jugadoresArray:any[] = Object.entries(data).map(([key, value]) => ({
+          const jugadoresArray = Object.entries(data).map(([key, value]) => ({
             id: key,
-            ...(value as object),
+            ...(value, object),
           }));
           console.log(jugadoresArray);
           setJugadores(jugadoresArray);
