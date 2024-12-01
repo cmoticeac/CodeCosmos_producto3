@@ -1,6 +1,7 @@
 import React from 'react';
-import Inicio from '../components/Inicio'; // Ruta relativa a la carpeta app
+import { Stack } from "expo-router";
+import { styles } from '../styles';
 
-export default function Home() {
-  return <Inicio />;
+export default function App() {
+  return <Stack />;
 }

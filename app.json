@@ -3,6 +3,7 @@
     "name": "codecomos3",
     "slug": "codecomos3",
     "version": "1.0.0",
+    "scheme": "codecosmos3",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
