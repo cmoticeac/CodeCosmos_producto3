@@ -7,14 +7,24 @@
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
+    "android": {
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE"
+      ],
+      "package": "com.anonymous.codecomos3"
     },
-    "android": {},
     "web": {},
-    "plugins": [],
+    "plugins": [
+      "@react-native-firebase/app"
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.codecomos3"
     }
   }
 }
