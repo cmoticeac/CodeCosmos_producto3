@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "codecomos3",
+    "displayName": "MyApp",
     "slug": "codecomos3",
     "version": "1.0.0",
     "scheme": "codecosmos3",
@@ -18,8 +19,7 @@
     },
     "web": {},
     "plugins": [
-      "@react-native-firebase/app",
-      "expo-router"
+      "@react-native-firebase/app"
     ],
     "experiments": {
       "typedRoutes": true

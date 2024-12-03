@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import firebaseConfig from './firebaseConfig';
 import database from '@react-native-firebase/database';
 
-export default function HomeScreen() {
+export default function Listado() {
     const [jugadores, setJugadores] = useState([]);
   
     useEffect(() => {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useSearchParams } from 'expo-router';
+import { useRoute } from '@react-navigation/native';
 
 export default function ComponentDetalle() {
-  const { id = 'Sin ID', title = 'Sin título' } = useSearchParams();
+  const route = useRoute();
+  const { id = 'Sin ID', title = 'Sin título' } = useRoute();
 
   return (
     <View style={styles.container}>
