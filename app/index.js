@@ -1,24 +1,14 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import { styles } from "../styles"
-import Listado from './listado';
-import ComponentDetalle from './detalle';
-import ComponentReproductor from './reproductor';
-import InicioApp from './inicio';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { codecomos3 as MyApp } from '../app.json';
+import { View, Text } from 'react-native';
+import { name as codecomos3 } from '../app.json';
 
-const Stack = createStackNavigator ();
-
-export default function App() {
+function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="inicio">
-        <Stack.Screen name="inicio" component={InicioApp} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ fontSize: 24, color: 'green' }}>¡Funciona!</Text>
+    </View>
   );
 }
 
-AppRegistry.registerComponent(MyApp, () => App);
+AppRegistry.registerComponent(codecomos3, () => App);

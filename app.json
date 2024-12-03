@@ -1,31 +1,4 @@
 {
-  "expo": {
-    "name": "codecomos3",
-    "displayName": "MyApp",
-    "slug": "codecomos3",
-    "version": "1.0.0",
-    "scheme": "codecosmos3",
-    "orientation": "portrait",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "android": {
-      "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE"
-      ],
-      "package": "com.anonymous.codecomos3"
-    },
-    "web": {},
-    "plugins": [
-      "@react-native-firebase/app"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
-    "ios": {
-      "bundleIdentifier": "com.anonymous.codecomos3"
-    }
-  }
+  "name": "codecomos3",
+  "displayName": "MyApp"
 }
