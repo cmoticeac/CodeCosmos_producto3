@@ -1,58 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FlatList, View, Text, StyleSheet } from 'react-native';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { database, ref, onValue } from '../src/firebase.js'; // Aquí importamos ref y onValue
 
-export default function Listado() {
-  const [jugadores, setJugadores] = useState([]);
-  console.log("llego l 9");
+class Listado extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      jugadores: [], // Estado inicial
+    };
+  }
 
-  useEffect(() => {
-    console.log("llegolinea 15 pasa useEffect inicializa database");
+  componentDidMount() {
+    console.log("llegolinea 15 pasa componentDidMount inicializa database");
 
-    // Ahora usamos ref(database, 'ruta') correctamente
+    // Inicializamos la referencia a la base de datos
     const jugadoresRef = ref(database, '/jugadores');
     console.log("inicializa linea 16 ref firebase");
 
-    // Escuchar los cambios en la base de datos
-    onValue(jugadoresRef, (snapshot) => {
+    // Escuchamos los cambios en la base de datos
+    this.unsubscribe = onValue(jugadoresRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const jugadoresArray = Object.entries(data).map(([key, value]) => ({
-          id: key,
-          ...value,  // Corregido aquí
-        }));
-        console.log(jugadoresArray);
-        setJugadores(jugadoresArray);
+        try {
+          const jugadoresArray = Object.entries(data).map(([key, value]) => ({
+            id: key,
+            ...value, // clave ... valor, clave... valor...valor
+          }));
+          console.log(jugadoresArray);
+          this.setState({ jugadores: jugadoresArray });
+        } catch (error) {
+          console.log(error.id);
+        }
       } else {
-        setJugadores([]);
+        this.setState({ jugadores: [] });
       }
     });
+  }
 
-    // Limpiar la suscripción cuando el componente se desmonte
-    return () => jugadoresRef.off('value');
-  }, []);
+  componentWillUnmount() {
+    // Libera base de datos
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
 
-  // Renderizar cada jugador
-  const renderItem = ({ item }) => (
+  renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.name}>Nombre: {item.nombre}</Text>
       <Text>Apellido: {item.apellido}</Text>
       <Text>Posición: {item.posicion}</Text>
       <Text>Edad: {item.edad}</Text>
+      <Text>Imagen: {item.img1}</Text>
+      <Text>Video: {item.video}</Text>
     </View>
   );
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Lista de Jugadores</Text>
-      <FlatList
-        data={jugadores}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-    </View>
-  );
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Lista de Jugadores</Text>
+        <FlatList
+          data={this.state.jugadores}
+          renderItem={this.renderItem}
+          keyExtractor={(item) => item.id}
+          onEndReachedThreshold={0.1} // Ajustamos el umbral para cuando se dispara el evento
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -76,3 +91,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+export default Listado;
