@@ -3,14 +3,14 @@ import {View,Text, StyleSheet} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import Listado from './listado';
 const HeaderPlayer = () => {
-  const titleText='Listado de jugadores';
+  const titleText='Grupo CodeCosmos';
   
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View> 
-           <Text style={styles.titleText}> {titleText}       </Text>
+           <Text style={styles.titleText}> {titleText} </Text>
         </View>
         <Listado />
 
@@ -33,8 +33,9 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     fontWeight: 'bold',
-    alignContent:'center',
-    backgroundColor: 'green'
+    alignContent: 'center',
+    textAlign: 'center',
+    backgroundColor: '#4A628A'
   }
 });
 
