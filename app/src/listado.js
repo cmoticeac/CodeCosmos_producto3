@@ -1,7 +1,6 @@
 import React from 'react';
 import { FlatList, View, Text, StyleSheet, Button, Image } from 'react-native';
-//import Video from 'react-native-video';
-//import Video from 'react-native-media-player';
+import Video from 'react-native-video';
 import { database, ref, onValue } from '../src/firebase.js'; // Aquí importamos ref y onValue
 
 class Listado extends React.Component {
@@ -53,34 +52,25 @@ class Listado extends React.Component {
   renderItem = ({ item }) => (
     <View style={styles.item}>
       <Image
-        //source={{ uri: item.img1 }} // Suponiendo que `item.img1` contiene la URL de la imagen
-        source={{ uri: 'https://alejandroarevalorojas.com/assets/imagenes/player01_01.png' }} // Suponiendo que `item.img1` contiene la URL de la imagen
+        source={{ uri: item.img1 }} // Suponiendo que `item.img1` contiene la URL de la imagen
         style={styles.image} // Estilo para la imagen
       />
       <Text style={styles.name}>Nombre: {item.nombre}</Text>
       <Text>Apellido: {item.apellido}</Text>
       <Text>Posición: {item.posicion}</Text>
       <Text>Edad: {item.edad}</Text>
-      <Text>Imagen: {item.img1}</Text>
-      <Text>Video: {item.video}</Text>
       <Button
       title="Ver Detalles Jugador"
       onPress={this.handlePress}
       />
-      {/* <MediaPlayer
-          //url={item.video} // URL del video
-          url={'https://alejandroarevalorojas.com/assets/videos/player01.mp4'} // URL del video
-          style={styles.video}
-          autoplay={false} // Puedes cambiar esto si quieres que el video se reproduzca automáticamente
-        /> */}
-      {/* <Video
-          //source={{ uri: item.video }} // Aquí se carga la URL del video
-          source={{ uri: 'https://alejandroarevalorojas.com/assets/videos/player01.mp4' }} // Aquí se carga la URL del video
+      { <Video
+          source={{ uri: item.video }} // Aquí se carga la URL del video
           ref={(ref) => { this.player = ref }} // Referencia para controlar el reproductor
           style={styles.video}
+          paused={true}
           controls={true}  // Muestra los controles del video (play, pause, volumen, etc.)
           resizeMode="contain" // Ajusta la imagen del video
-        /> */}
+        /> }
     </View>
   );
 

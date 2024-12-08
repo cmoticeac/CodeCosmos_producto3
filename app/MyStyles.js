@@ -27,10 +27,10 @@ export const MyStyles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 5,
     elevation: 2, // Sombra para Android
-    shadowColor: '#000', // Sombra para iOS
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 1,
+    boxColor: '#000', // Sombra para iOS
+    boxOffset: { width: 0, height: 1 },
+    boxOpacity: 0.3,
+    boxRadius: 1,
   },
   listText: {
     fontSize: 16,
