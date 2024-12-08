@@ -3,7 +3,7 @@ import { FlatList, View, Text, StyleSheet, Button, Image } from 'react-native';
 import { Video } from 'expo-av';
 import { database, ref, onValue } from '../src/firebase.js'; // Aquí importamos ref y onValue
 
-class Detalle extends React.Component {
+class Multimedia extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -129,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Detalle;
+export default Multimedia;
