@@ -1,6 +1,6 @@
 // Detalle.js
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, ScrollView } from 'react-native';
 import Multimedia from './multimedia'; // Importamos el componente Multimedia
 
 const Detalle = ({ jugador, onBack }) => {
@@ -17,7 +17,7 @@ const Detalle = ({ jugador, onBack }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Detalles del Jugador</Text>
       <Image
         source={{ uri: jugador.img1 }} // Usamos jugador.img1 para acceder a la URL de la imagen
@@ -38,7 +38,7 @@ const Detalle = ({ jugador, onBack }) => {
         {'\n'}
       </Text>
       <Button title="Ir a Multimedia" onPress={handleGoToMultimedia} /> {/* Botón para ir a Multimedia */}
-    </View>
+    </ScrollView>
   );
 };
 

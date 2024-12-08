@@ -1,11 +1,11 @@
 // Multimedia.js
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
 import { Video } from 'expo-av';
 
 const Multimedia = ({ onBack, jugador }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Componente Multimedia</Text>
       {/* Componente Video */}
       <Video
@@ -13,7 +13,7 @@ const Multimedia = ({ onBack, jugador }) => {
         style={styles.video}
         shouldPlay={false}  // El video se inicia en pausa
         useNativeControls={true}  // Habilitamos los controles nativos del video
-        resizeMode="contain"  // Ajuste del video para que no se deforme
+        resizeMode="cover"  // Ajuste del video para que no se deforme
       />
       <Text>
         {'\n'}
@@ -22,7 +22,7 @@ const Multimedia = ({ onBack, jugador }) => {
         title="Volver a los detalles"
         onPress={onBack} // Llamamos la función onBack para regresar al componente Detalle
       />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -60,9 +60,10 @@ const styles = StyleSheet.create({
       marginBottom: 10,
     },
     video: {
-      width: '100%',    // Establece el tamaño del video
-      height: 200,      // Altura del video
-      marginTop: 10,    // Espacio entre la imagen y el video
+      width: '100%',    // Ancho del video al 100% del contenedor
+      height: 400,      // Ajustamos la altura a 400 para un video grande
+      marginTop: 10,    // Espacio superior entre el título y el video
+      marginBottom: 20, // Espacio inferior para separar de otros contenidos
     },
 });
 
