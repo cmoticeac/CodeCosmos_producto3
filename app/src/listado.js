@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, View, Text, StyleSheet, Button, Image } from 'react-native';
-import Video from 'react-native-video';
+import { Video } from 'expo-av';
 import { database, ref, onValue } from '../src/firebase.js'; // Aquí importamos ref y onValue
 
 class Listado extends React.Component {
@@ -63,14 +63,14 @@ class Listado extends React.Component {
       title="Ver Detalles Jugador"
       onPress={this.handlePress}
       />
-      { <Video
-          source={{ uri: item.video }} // Aquí se carga la URL del video
-          ref={(ref) => { this.player = ref }} // Referencia para controlar el reproductor
-          style={styles.video}
-          paused={true}
-          controls={true}  // Muestra los controles del video (play, pause, volumen, etc.)
-          resizeMode="contain" // Ajusta la imagen del video
-        /> }
+      <Video
+        source={{ uri: item.video }} // Aquí se carga la URL del video
+        style={styles.video}
+        shouldPlay={false}  // El video estará pausado al principio
+        useNativeControls={true}  // Muestra los controles nativos del video
+        
+        resizeMode="contain"  // Ajuste de tamaño del video
+      />
     </View>
   );
 
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   image: {
-    width: 200 ,    // Ancho de la imagen
+    width: 200,    // Ancho de la imagen
     height: 200,   // Alto de la imagen
     alignContent: 'center',
     textAlign: 'center',

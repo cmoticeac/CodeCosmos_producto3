@@ -50,7 +50,9 @@
     "react-native-video": "^6.8.2",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "expo-av": "~15.0.1",
+    "@react-native-community/slider": "4.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
