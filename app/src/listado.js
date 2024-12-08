@@ -62,20 +62,12 @@ class Listado extends React.Component {
       <Text style={styles.name}>Nombre: {item.nombre}</Text>
       <Text>Apellido: {item.apellido}</Text>
       <Text>Posición: {item.posicion}</Text>
-      <Text>Edad: {item.edad}</Text>
       <Text>
         {'\n'}
       </Text>
       <Button
         title="Ver Detalles Jugador"
         onPress={() => this.handlePress(item)} // Al presionar el botón se selecciona el jugador
-      />
-      <Video
-        source={{ uri: item.video }} // Aquí se carga la URL del video
-        style={styles.video}
-        shouldPlay={false}  // El video estará pausado al principio
-        useNativeControls={true}  // Muestra los controles nativos del video
-        resizeMode="contain"  // Ajuste de tamaño del video
       />
     </View>
   );
