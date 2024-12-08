@@ -1,55 +1,81 @@
 import React from 'react';
-import { FlatList, View, Text, StyleSheet, Button, Image } from 'react-native';
-import { Video } from 'expo-av';
-import { database, ref, onValue } from '../src/firebase.js'; // Aquí importamos ref y onValue
+import { FlatList, View, Text, StyleSheet, Button, Image, ActivityIndicator } from 'react-native';
+import { database, ref, onValue } from '../src/firebase'; // Aquí importamos ref y onValue
 import Detalle from './detalle'; // Asegúrate de importar el componente Detalle
 
 class Listado extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      jugadores: [], // Estado inicial
+      jugadores: [], // Estado para almacenar los jugadores
       selectedJugador: null, // Jugador seleccionado para mostrar detalles
+      loading: false, // Indicador de carga
+      page: 1, // Página actual (sirve para saber cuántas veces agregar los 10 jugadores)
+      allJugadores: [], // Almacenaremos todos los jugadores en un solo arreglo para evitar duplicados
     };
   }
 
   componentDidMount() {
-    console.log("llegolinea 15 pasa componentDidMount inicializa database");
+    this.loadJugadores(); // Cargar los jugadores cuando el componente se monta
+  }
 
-    // Inicializamos la referencia a la base de datos
+  // Cargar los jugadores de la base de datos
+  loadJugadores = () => {
     const jugadoresRef = ref(database, '/jugadores');
-    console.log("inicializa linea 16 ref firebase");
 
-    // Escuchamos los cambios en la base de datos
-    this.unsubscribe = onValue(jugadoresRef, (snapshot) => {
+    this.setState({ loading: true });
+
+    onValue(jugadoresRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        try {
-          const jugadoresArray = Object.entries(data).map(([key, value]) => ({
-            id: key,
-            ...value, // clave ... valor, clave... valor...valor
-          }));
-          console.log(jugadoresArray);
-          this.setState({ jugadores: jugadoresArray });
-        } catch (error) {
-          console.log(error.id);
-        }
+        const jugadoresArray = Object.entries(data).map(([key, value]) => ({
+          id: key,
+          ...value,
+        }));
+
+        // Guardamos los primeros 10 jugadores
+        const primeros10Jugadores = jugadoresArray.slice(0, 10);
+
+        this.setState({
+          jugadores: primeros10Jugadores, // Establecemos los primeros 10 jugadores
+          allJugadores: primeros10Jugadores, // Almacenamos todos los jugadores
+          loading: false,
+        });
       } else {
-        this.setState({ jugadores: [] });
+        this.setState({ jugadores: [], loading: false });
       }
     });
-  }
+  };
 
-  componentWillUnmount() {
-    // Libera base de datos
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
+  // Función que se ejecuta cuando el usuario llega al final de la lista
+  handleEndReached = () => {
+    const { loading, jugadores, allJugadores, page } = this.state;
+
+    // Si estamos cargando o ya no hay más jugadores para agregar, no hacemos nada
+    if (loading) return;
+
+    this.setState(
+      (prevState) => ({
+        page: prevState.page + 1, // Aumentamos la página
+        loading: true, // Activamos el indicador de carga
+      }),
+      () => {
+        // Crear una nueva lista de jugadores duplicados con un ID único
+        const jugadoresRepetidos = jugadores.map((jugador, index) => ({
+          ...jugador,
+          id: `${jugador.id}_duplicado_${allJugadores.length + index}`, // Asignamos un nuevo ID único basado en el índice total
+        }));
+
+        this.setState((prevState) => ({
+          jugadores: [...prevState.jugadores, ...jugadoresRepetidos], // Añadimos los mismos jugadores al final
+          allJugadores: [...prevState.allJugadores, ...jugadoresRepetidos], // Actualizamos la lista de todos los jugadores
+          loading: false, // Desactivamos el indicador de carga
+        }));
+      }
+    );
+  };
 
   handlePress = (item) => {
-    console.log("Botón detalles jugador apretado para:", item.nombre);
-    // Guardamos el jugador seleccionado en el estado
     this.setState({ selectedJugador: item });
   };
 
@@ -57,38 +83,32 @@ class Listado extends React.Component {
     <View style={styles.item}>
       <Image
         source={{ uri: item.img1 }} // Suponiendo que `item.img1` contiene la URL de la imagen
-        style={styles.image} // Estilo para la imagen
+        style={styles.image}
       />
       <Text style={styles.name}>Nombre: {item.nombre}</Text>
       <Text>Apellido: {item.apellido}</Text>
       <Text>Posición: {item.posicion}</Text>
-      <Text>
-        {'\n'}
-      </Text>
-      <Button
-        title="Ver Detalles Jugador"
-        onPress={() => this.handlePress(item)} // Al presionar el botón se selecciona el jugador
-      />
+      <Button title="Ver Detalles Jugador" onPress={() => this.handlePress(item)} />
     </View>
   );
 
   render() {
-    const { selectedJugador, jugadores } = this.state;
+    const { selectedJugador, jugadores, loading } = this.state;
 
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Lista de Jugadores</Text>
 
         {selectedJugador ? (
-          // Si hay un jugador seleccionado, mostramos el componente Detalle
           <Detalle jugador={selectedJugador} onBack={() => this.setState({ selectedJugador: null })} />
         ) : (
-          // Si no hay jugador seleccionado, mostramos la lista de jugadores
           <FlatList
             data={jugadores}
             renderItem={this.renderItem}
-            keyExtractor={(item) => item.id}
-            onEndReachedThreshold={0.1} // Ajustamos el umbral para cuando se dispara el evento
+            keyExtractor={(item) => item.id} // Aquí usamos la clave única
+            onEndReached={this.handleEndReached} // Cargar más jugadores al llegar al final
+            onEndReachedThreshold={0.1} // Activar cuando el usuario está al 10% del final
+            ListFooterComponent={loading ? <ActivityIndicator size="large" color="#0000ff" /> : null} // Mostrar cargando
           />
         )}
       </View>
@@ -121,18 +141,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   image: {
-    width: 200,    // Ancho de la imagen
-    height: 200,   // Alto de la imagen
+    width: 200, // Ancho de la imagen
+    height: 200, // Alto de la imagen
     alignContent: 'center',
     textAlign: 'center',
-    resizeMode: 'cover',  // Ajusta la imagen a un formato adecuado
-    marginTop: 10,  // Espacio entre el texto y la imagen
+    resizeMode: 'cover', // Ajusta la imagen a un formato adecuado
+    marginTop: 10, // Espacio entre el texto y la imagen
     marginBottom: 10,
-  },
-  video: {
-    width: '100%',    // Establece el tamaño del video
-    height: 200,      // Altura del video
-    marginTop: 10,    // Espacio entre la imagen y el video
   },
 });
 
