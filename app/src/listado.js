@@ -2,12 +2,14 @@ import React from 'react';
 import { FlatList, View, Text, StyleSheet, Button, Image } from 'react-native';
 import { Video } from 'expo-av';
 import { database, ref, onValue } from '../src/firebase.js'; // Aquí importamos ref y onValue
+import Detalle from './detalle'; // Asegúrate de importar el componente Detalle
 
 class Listado extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       jugadores: [], // Estado inicial
+      selectedJugador: null, // Jugador seleccionado para mostrar detalles
     };
   }
 
@@ -45,8 +47,10 @@ class Listado extends React.Component {
     }
   }
 
-  handlePress = () => {
-    console.log("boton detalles jugador apretado");
+  handlePress = (item) => {
+    console.log("Botón detalles jugador apretado para:", item.nombre);
+    // Guardamos el jugador seleccionado en el estado
+    this.setState({ selectedJugador: item });
   };
 
   renderItem = ({ item }) => (
@@ -59,31 +63,42 @@ class Listado extends React.Component {
       <Text>Apellido: {item.apellido}</Text>
       <Text>Posición: {item.posicion}</Text>
       <Text>Edad: {item.edad}</Text>
+      <Text>
+        {'\n'}
+      </Text>
       <Button
-      title="Ver Detalles Jugador"
-      onPress={this.handlePress}
+        title="Ver Detalles Jugador"
+        onPress={() => this.handlePress(item)} // Al presionar el botón se selecciona el jugador
       />
       <Video
         source={{ uri: item.video }} // Aquí se carga la URL del video
         style={styles.video}
         shouldPlay={false}  // El video estará pausado al principio
         useNativeControls={true}  // Muestra los controles nativos del video
-        
         resizeMode="contain"  // Ajuste de tamaño del video
       />
     </View>
   );
 
   render() {
+    const { selectedJugador, jugadores } = this.state;
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Lista de Jugadores</Text>
-        <FlatList
-          data={this.state.jugadores}
-          renderItem={this.renderItem}
-          keyExtractor={(item) => item.id}
-          onEndReachedThreshold={0.1} // Ajustamos el umbral para cuando se dispara el evento
-        />
+
+        {selectedJugador ? (
+          // Si hay un jugador seleccionado, mostramos el componente Detalle
+          <Detalle jugador={selectedJugador} onBack={() => this.setState({ selectedJugador: null })} />
+        ) : (
+          // Si no hay jugador seleccionado, mostramos la lista de jugadores
+          <FlatList
+            data={jugadores}
+            renderItem={this.renderItem}
+            keyExtractor={(item) => item.id}
+            onEndReachedThreshold={0.1} // Ajustamos el umbral para cuando se dispara el evento
+          />
+        )}
       </View>
     );
   }
