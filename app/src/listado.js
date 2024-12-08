@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, Text, StyleSheet } from 'react-native';
+import { FlatList, View, Text, StyleSheet, Button } from 'react-native';
 import { database, ref, onValue } from '../src/firebase.js'; // Aquí importamos ref y onValue
 
 class Listado extends React.Component {
@@ -44,6 +44,10 @@ class Listado extends React.Component {
     }
   }
 
+  handlePress = () => {
+    console.log("boton detalles jugador apretado");
+  };
+
   renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.name}>Nombre: {item.nombre}</Text>
@@ -52,6 +56,10 @@ class Listado extends React.Component {
       <Text>Edad: {item.edad}</Text>
       <Text>Imagen: {item.img1}</Text>
       <Text>Video: {item.video}</Text>
+      <Button
+      title="Ver Detalles Jugador"
+      onPress={this.handlePress}
+      />
     </View>
   );
 
